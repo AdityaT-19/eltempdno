@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   CircularProgress,
   ListItem,
@@ -8,19 +8,12 @@ import {
 import UrlModal from "../UrlModal";
 import axios from "axios";
 import { useSortable } from "@dnd-kit/sortable";
-import { nanoid } from "nanoid";
 import { CSS } from "@dnd-kit/utilities";
+import { CanvasField } from "../../data_types/CanvasField";
 
 interface ListProps {
   id: string;
   title: string;
-}
-
-interface CanvasField {
-  type: string;
-  id: string;
-  url: string | undefined;
-  method: string | undefined;
 }
 
 const List = (props: {
@@ -35,6 +28,7 @@ const List = (props: {
     canvasField.url !== undefined && canvasField.method !== undefined
   );
   const [isLoading, setIsLoading] = useState(false);
+
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: canvasField.id,
@@ -49,25 +43,34 @@ const List = (props: {
   };
 
   async function fetchList(url: string, method: string) {
+    console.log("fetching list");
+    console.log(url);
     setIsLoading(true);
     const response = await axios.request({
       url: url,
       method: method,
     });
     let data = response.data;
-    data = data.slice(0, 5);
+    data = data.map((item: any) => {
+      return {
+        id: item[canvasField.dataFields![0]],
+        title: item[canvasField.dataFields![1]],
+      };
+    });
 
+    data = data.slice(0, 5);
     setListItems(data);
     setIsLoading(false);
   }
 
-  async function fetchData(url: string, method: string) {
+  async function fetchData(url: string, method: string, dataFields: string[]) {
     setIsDataFetch(true);
     const newCanvasField = {
       id: canvasField.id,
       type: canvasField.type,
       url: url,
       method: method,
+      dataFields: dataFields,
     };
     updateCanvasField(canvasField.id, newCanvasField);
   }
@@ -76,7 +79,7 @@ const List = (props: {
     if (canvasField.url && canvasField.method) {
       fetchList(canvasField.url, canvasField.method);
     }
-  }, [canvasField.url, canvasField.method]);
+  }, [canvasField.url, canvasField.method, canvasField.dataFields]);
 
   return (
     <div
@@ -86,8 +89,10 @@ const List = (props: {
         alignItems: "flex-start",
       }}
     >
-      {!isDataFetch && <UrlModal fetchData={fetchData} />}
+      {!isDataFetch && <UrlModal fetchData={fetchData} field={canvasField} />}
+
       {isLoading && <CircularProgress />}
+
       {isDataFetch && (
         <MaterialList
           style={style}

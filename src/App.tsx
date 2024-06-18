@@ -25,17 +25,11 @@ import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AppsIcon from "@mui/icons-material/Apps";
 import TableViewIcon from "@mui/icons-material/TableView";
 import { ThemeOptions, ThemeProvider } from "@mui/material/styles";
+import { CanvasField } from "./data_types/CanvasField";
 
 const items = ["list", "grid", "table"];
 const icons = [<FormatListBulletedIcon />, <AppsIcon />, <TableViewIcon />];
 
-interface CanvasField {
-  type: string;
-  id: string;
-  url: string | undefined;
-  method: string | undefined;
-  dataFields?: string[];
-}
 function App() {
   //const [fields, setFields] = useState<CanvasProps[]>([]);
 

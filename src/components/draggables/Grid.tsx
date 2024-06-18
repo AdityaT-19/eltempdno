@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import UrlModal from "../UrlModal";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
+import { CanvasField } from "../../data_types/CanvasField";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -20,13 +21,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 interface GridProps {
   body: string;
-}
-
-interface CanvasField {
-  type: string;
-  id: string;
-  url: string | undefined;
-  method: string | undefined;
 }
 
 const Grid = (props: {
@@ -56,18 +50,24 @@ const Grid = (props: {
       method: method,
     });
     let data = response.data;
+    data = data.map((item: any) => {
+      return {
+        body: item[canvasField.dataFields![0]],
+      };
+    });
     data = data.slice(0, 5);
     setGridItems(data);
     setIsLoading(false);
   }
 
-  async function fetchData(url: string, method: string) {
+  async function fetchData(url: string, method: string, dataFields: string[]) {
     setIsDataFetch(true);
     const newCanvasField = {
       id: canvasField.id,
       type: canvasField.type,
       url: url,
       method: method,
+      dataFields: dataFields,
     };
     updateCanvasField(canvasField.id, newCanvasField);
   }
@@ -80,7 +80,7 @@ const Grid = (props: {
 
   return (
     <div>
-      {!isDataFetch && <UrlModal fetchData={fetchData} />}
+      {!isDataFetch && <UrlModal fetchData={fetchData} field={canvasField} />}
       {isLoading && <CircularProgress />}
       {isDataFetch && (
         <MaterialGrid
@@ -92,7 +92,20 @@ const Grid = (props: {
           {...listeners}
         >
           {gridItems.map((item, index) => (
-            <MaterialGrid item key={index} xs={12} sm={6} md={4}>
+            <MaterialGrid
+              item
+              key={index}
+              xs={12}
+              sm={6}
+              md={4}
+              style={{
+                display: "inline-block",
+                width: "auto",
+                alignContent: `flex-start`,
+                alignItems: `flex-start`,
+                justifyContent: `flex-start`,
+              }}
+            >
               <Item>{item.body}</Item>
             </MaterialGrid>
           ))}

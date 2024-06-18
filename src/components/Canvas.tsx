@@ -66,29 +66,47 @@ const Canvas = (props: {
           }}
         >
           {field.type === "list" && (
-            <List
-              canvasField={fields[index]}
-              updateCanvasField={updateCanvasField}
-            />
+            <>
+              <List
+                canvasField={fields[index]}
+                updateCanvasField={updateCanvasField}
+              />
+              <div
+                style={{
+                  height: "25px",
+                  width: "100%",
+                }}
+              ></div>
+            </>
           )}
           {field.type === "grid" && (
-            <Grid
-              canvasField={fields[index]}
-              updateCanvasField={updateCanvasField}
-            />
+            <>
+              <Grid
+                canvasField={fields[index]}
+                updateCanvasField={updateCanvasField}
+              />
+              <div
+                style={{
+                  height: "25px",
+                  width: "100%",
+                }}
+              ></div>
+            </>
           )}
           {field.type === "table" && (
-            <Table
-              canvasField={fields[index]}
-              updateCanvasField={updateCanvasField}
-            />
+            <>
+              <Table
+                canvasField={fields[index]}
+                updateCanvasField={updateCanvasField}
+              />
+              <div
+                style={{
+                  height: "25px",
+                  width: "100%",
+                }}
+              ></div>
+            </>
           )}
-          <div
-            style={{
-              height: "25px",
-              width: "100%",
-            }}
-          ></div>
         </div>
       ))}
     </Box>

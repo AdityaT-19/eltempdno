@@ -78,7 +78,7 @@ const SideBar = () => {
       <Box
         width={screen.width * 0.17}
         border={"1px solid black"}
-        height={"39vh"}
+        height={"20vh"}
         borderRadius={2}
         alignContent={"center"}
         margin={2}

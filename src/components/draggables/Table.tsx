@@ -6,13 +6,7 @@ import { useEffect, useState } from "react";
 import UrlModal from "../UrlModal";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
-
-interface CanvasField {
-  type: string;
-  id: string;
-  url: string | undefined;
-  method: string | undefined;
-}
+import { CanvasField } from "../../data_types/CanvasField";
 
 export default function DataGridDemo(props: {
   canvasField: CanvasField;
@@ -73,12 +67,25 @@ export default function DataGridDemo(props: {
   }, [canvasField.url, canvasField.method]);
 
   return (
-    <div>
-      {!isDataFetch && <UrlModal fetchData={fetchData} />}
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "flex-start",
+        alignItems: "flex-start",
+      }}
+    >
+      {!isDataFetch && <UrlModal fetchData={fetchData} field={canvasField} />}
       {isLoading && <CircularProgress />}
       {isDataFetch && (
         <Box
-          sx={{ height: 400, width: "100%" }}
+          sx={{
+            height: 400,
+            display: "inline-block",
+            width: "auto",
+            alignContent: `flex-start`,
+            alignItems: `flex-start`,
+            justifyContent: `flex-start`,
+          }}
           ref={setNodeRef}
           style={style}
           {...attributes}
