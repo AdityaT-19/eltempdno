@@ -52,6 +52,7 @@ const UrlModal = (props: {
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            borderRadius: "25px",
           }}
         >
           <div
@@ -84,7 +85,6 @@ const UrlModal = (props: {
             <div
               style={{
                 display: "flex",
-
                 width: "100%",
               }}
             >

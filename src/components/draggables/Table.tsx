@@ -29,7 +29,7 @@ export default function DataGridDemo(props: {
   );
   const [isLoading, setIsLoading] = useState(false);
   const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: canvasField.id });
+    useSortable({ id: canvasField.id, data: { type: "table" } });
 
   const style = {
     transform: CSS.Transform.toString(transform),

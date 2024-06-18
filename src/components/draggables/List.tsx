@@ -38,6 +38,9 @@ const List = (props: {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id: canvasField.id,
+      data: {
+        type: "list",
+      },
     });
 
   const style = {
@@ -53,6 +56,7 @@ const List = (props: {
     });
     let data = response.data;
     data = data.slice(0, 5);
+
     setListItems(data);
     setIsLoading(false);
   }

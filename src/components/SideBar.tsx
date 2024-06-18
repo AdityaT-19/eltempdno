@@ -10,10 +10,11 @@ import {
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 import AppsIcon from "@mui/icons-material/Apps";
 import TableViewIcon from "@mui/icons-material/TableView";
-import { useDraggable } from "@dnd-kit/core";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { nanoid } from "nanoid";
 import { useRef } from "react";
+import { GridDeleteIcon } from "@mui/x-data-grid";
 
 const items = ["List", "Grid", "Table"];
 const icons = [<FormatListBulletedIcon />, <AppsIcon />, <TableViewIcon />];
@@ -42,7 +43,7 @@ export const SideBarField = (index: number) => {
     >
       <ListItem
         key={items[index]}
-        style={style}
+        //style={style}
         ref={setNodeRef}
         {...attributes}
         {...listeners}
@@ -57,10 +58,36 @@ export const SideBarField = (index: number) => {
 };
 
 const SideBar = () => {
+  const { setNodeRef } = useDroppable({
+    id: "trash",
+  });
+
   return (
-    <Box width={screen.width * 0.2} height={"100vh"}>
-      <List>{items.map((_, index) => SideBarField(index))}</List>
-    </Box>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-around",
+        height: "100%",
+      }}
+    >
+      <Box width={screen.width * 0.2}>
+        <h2>Components</h2>
+        <List>{items.map((_, index) => SideBarField(index))}</List>
+      </Box>
+      <Box
+        width={screen.width * 0.17}
+        border={"1px solid black"}
+        height={"39vh"}
+        borderRadius={2}
+        alignContent={"center"}
+        margin={2}
+        padding={1}
+        ref={setNodeRef}
+      >
+        <GridDeleteIcon />
+      </Box>
+    </div>
   );
 };
 

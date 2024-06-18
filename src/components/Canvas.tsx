@@ -1,9 +1,10 @@
 import { useDroppable } from "@dnd-kit/core";
-import { Box } from "@mui/material";
+import { Box, IconButton } from "@mui/material";
 import List from "./draggables/List";
 import Grid from "./draggables/Grid";
 import Table from "./draggables/Table";
 import { CSS } from "@dnd-kit/utilities";
+import { GridDeleteIcon } from "@mui/x-data-grid";
 
 interface CanvasField {
   type: string;
@@ -14,6 +15,7 @@ interface CanvasField {
 const Canvas = (props: {
   fields: CanvasField[];
   updateCanvasField: (id: string, field: CanvasField) => void;
+  deleteAll: () => void;
 }) => {
   const { fields, updateCanvasField } = props;
   const { setNodeRef } = useDroppable({
@@ -27,9 +29,32 @@ const Canvas = (props: {
       height={"100%"}
       border={"1px solid black"}
       margin={2}
+      borderRadius={2}
       minHeight={screen.height * 0.8}
     >
-      <h1>Canvas</h1>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          padding: "2%",
+        }}
+      >
+        <h2
+          style={{
+            textAlign: "center",
+            margin: "auto",
+          }}
+        >
+          Drop your components here
+        </h2>
+        <IconButton
+          onClick={() => {
+            props.deleteAll();
+          }}
+        >
+          <GridDeleteIcon />
+        </IconButton>
+      </div>
       {fields.map((field, index) => (
         <div
           key={index}
@@ -58,6 +83,12 @@ const Canvas = (props: {
               updateCanvasField={updateCanvasField}
             />
           )}
+          <div
+            style={{
+              height: "25px",
+              width: "100%",
+            }}
+          ></div>
         </div>
       ))}
     </Box>
