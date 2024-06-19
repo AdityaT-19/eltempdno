@@ -4,4 +4,6 @@ export interface CanvasField {
   url: string | undefined;
   method: string | undefined;
   dataFields?: string[];
+  x: number;
+  y: number;
 }

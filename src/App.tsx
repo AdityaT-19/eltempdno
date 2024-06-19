@@ -81,7 +81,12 @@ function App() {
           id: nanoid(),
           url: undefined,
           method: undefined,
+          //calculate x and y with respect to the canvas which can be found using over.delta
+          x: event.delta.x,
+          y: event.delta.y,
         });
+        console.log(event.delta.x);
+        console.log(event.delta.y);
         console.log(canvasFields);
       }
     } else {

@@ -3,15 +3,9 @@ import { Box, IconButton } from "@mui/material";
 import List from "./draggables/List";
 import Grid from "./draggables/Grid";
 import Table from "./draggables/Table";
-import { CSS } from "@dnd-kit/utilities";
 import { GridDeleteIcon } from "@mui/x-data-grid";
-
-interface CanvasField {
-  type: string;
-  id: string;
-  url: string | undefined;
-  method: string | undefined;
-}
+import { CanvasField } from "../data_types/CanvasField";
+import { Rnd } from "react-rnd";
 const Canvas = (props: {
   fields: CanvasField[];
   updateCanvasField: (id: string, field: CanvasField) => void;
@@ -31,12 +25,17 @@ const Canvas = (props: {
       margin={2}
       borderRadius={2}
       minHeight={screen.height * 0.8}
+      display="flex"
+      flexDirection="column"
+      className="canvas"
     >
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           padding: "2%",
+          position: "relative",
+          top: "0",
         }}
       >
         <h2
@@ -55,60 +54,124 @@ const Canvas = (props: {
           <GridDeleteIcon />
         </IconButton>
       </div>
-      {fields.map((field, index) => (
-        <div
-          key={index}
-          className={field.type}
-          style={{
-            display: "flex",
-            flexDirection: field.type === "grid" ? "row" : "column",
-            padding: "2%",
-          }}
-        >
-          {field.type === "list" && (
-            <>
-              <List
-                canvasField={fields[index]}
-                updateCanvasField={updateCanvasField}
-              />
-              <div
+      <div
+        className="canvas"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
+        {fields.map((field, index) => (
+          <div
+            key={index}
+            className={field.type}
+            style={{
+              //display: "flex",
+              flexDirection: field.type === "grid" ? "row" : "column",
+              padding: "2%",
+              display: "inline-block",
+              width: "auto",
+              alignContent: `flex-start`,
+              alignItems: `flex-start`,
+              justifyContent: `flex-start`,
+              height: "auto",
+            }}
+          >
+            {field.type === "list" && (
+              <Rnd
                 style={{
-                  height: "25px",
-                  width: "100%",
+                  border: "1px solid black",
+                  position: "relative",
+                  //display: "flex",
+                  flexDirection: "column",
+
+                  height: "100%",
+                  display: "inline-block",
+                  width: "auto",
                 }}
-              ></div>
-            </>
-          )}
-          {field.type === "grid" && (
-            <>
-              <Grid
-                canvasField={fields[index]}
-                updateCanvasField={updateCanvasField}
-              />
-              <div
+                bounds={".canvas"}
+                default={{
+                  x: field.x,
+                  y: field.y,
+                  width: "auto",
+                  height: "auto",
+                }}
+                enableResizing={{
+                  bottom: false,
+                  bottomLeft: false,
+                  bottomRight: false,
+                  left: true,
+                  right: true,
+                  top: false,
+                  topLeft: false,
+                  topRight: false,
+                }}
+              >
+                <List
+                  canvasField={fields[index]}
+                  updateCanvasField={updateCanvasField}
+                />
+              </Rnd>
+            )}
+            {field.type === "grid" && (
+              <Rnd
                 style={{
-                  height: "25px",
-                  width: "100%",
+                  border: "1px solid black",
+                  position: "relative",
+                  // display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  display: "inline-block",
+                  width: "auto",
+                  alignContent: `flex-start`,
+                  alignItems: `flex-start`,
+                  justifyContent: `flex-start`,
                 }}
-              ></div>
-            </>
-          )}
-          {field.type === "table" && (
-            <>
-              <Table
-                canvasField={fields[index]}
-                updateCanvasField={updateCanvasField}
-              />
-              <div
+                bounds={".canvas"}
+                default={{
+                  x: field.x,
+                  y: field.y,
+                  width: "auto",
+                  height: "auto",
+                }}
+              >
+                <Grid
+                  canvasField={fields[index]}
+                  updateCanvasField={updateCanvasField}
+                />
+              </Rnd>
+            )}
+            {field.type === "table" && (
+              <Rnd
                 style={{
-                  height: "25px",
-                  width: "100%",
+                  border: "1px solid black",
+                  position: "relative",
+                  // display: "flex",
+                  flexDirection: "column",
+                  height: "100%",
+                  display: "inline-block",
+                  width: "auto",
+                  alignContent: `flex-start`,
+                  alignItems: `flex-start`,
+                  justifyContent: `flex-start`,
                 }}
-              ></div>
-            </>
-          )}
-        </div>
-      ))}
+                bounds={".canvas"}
+                default={{
+                  x: field.x,
+                  y: field.y,
+                  width: "auto",
+                  height: "auto",
+                }}
+              >
+                <Table
+                  canvasField={fields[index]}
+                  updateCanvasField={updateCanvasField}
+                />
+              </Rnd>
+            )}
+          </div>
+        ))}
+      </div>
     </Box>
   );
 };

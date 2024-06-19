@@ -56,6 +56,8 @@ export default function DataGridDemo(props: {
       type: canvasField.type,
       url: url,
       method: method,
+      x: canvasField.x,
+      y: canvasField.y,
     };
     updateCanvasField(canvasField.id, newCanvasField);
   }

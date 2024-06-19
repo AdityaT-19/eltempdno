@@ -68,6 +68,8 @@ const Grid = (props: {
       url: url,
       method: method,
       dataFields: dataFields,
+      x: canvasField.x,
+      y: canvasField.y,
     };
     updateCanvasField(canvasField.id, newCanvasField);
   }
