@@ -134,6 +134,16 @@ const Canvas = (props: {
                   width: "auto",
                   height: "auto",
                 }}
+                enableResizing={{
+                  bottom: false,
+                  bottomLeft: false,
+                  bottomRight: false,
+                  left: true,
+                  right: true,
+                  top: false,
+                  topLeft: false,
+                  topRight: false,
+                }}
               >
                 <Grid
                   canvasField={fields[index]}
@@ -161,6 +171,16 @@ const Canvas = (props: {
                   y: field.y,
                   width: "auto",
                   height: "auto",
+                }}
+                enableResizing={{
+                  bottom: false,
+                  bottomLeft: false,
+                  bottomRight: false,
+                  left: true,
+                  right: true,
+                  top: false,
+                  topLeft: false,
+                  topRight: false,
                 }}
               >
                 <Table
