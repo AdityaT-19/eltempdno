@@ -7,6 +7,7 @@ import UrlModal from "../UrlModal";
 import { CSS } from "@dnd-kit/utilities";
 import { useSortable } from "@dnd-kit/sortable";
 import { CanvasField } from "../../data_types/CanvasField";
+import { Rnd } from "react-rnd";
 
 export default function DataGridDemo(props: {
   canvasField: CanvasField;
@@ -42,7 +43,6 @@ export default function DataGridDemo(props: {
       Object.keys(data[0]).map((key) => ({
         field: key,
         headerName: key,
-        width: 150,
       }))
     );
 
@@ -69,32 +69,49 @@ export default function DataGridDemo(props: {
   }, [canvasField.url, canvasField.method]);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "flex-start",
-        alignItems: "flex-start",
-      }}
-    >
+    <div>
       {!isDataFetch && <UrlModal fetchData={fetchData} field={canvasField} />}
       {isLoading && <CircularProgress />}
       {isDataFetch && (
-        <Box
-          sx={{
-            height: 400,
-            display: "inline-block",
+        <Rnd
+          default={{
+            x: canvasField.x,
+            y: canvasField.y,
             width: "auto",
-            alignContent: `flex-start`,
-            alignItems: `flex-start`,
-            justifyContent: `flex-start`,
+            height: "400",
           }}
-          ref={setNodeRef}
-          style={style}
-          {...attributes}
-          {...listeners}
+          bounds=".canvas"
+          dragHandleClassName="dragHandle"
         >
-          <DataGrid rows={rows} columns={columns} />
-        </Box>
+          <Box
+            sx={{
+              position: "absolute",
+              top: 0,
+              right: 0,
+              background: "white",
+              border: "1px solid black",
+              borderRadius: "5px",
+              padding: "5px",
+              zIndex: 1000,
+            }}
+            className="dragHandle"
+            style={style}
+            ref={setNodeRef}
+            {...listeners}
+            {...attributes}
+          >
+            +
+          </Box>
+          <DataGrid
+            style={{
+              height: "100%",
+              width: "100%",
+            }}
+            rows={rows}
+            columns={columns}
+            autoPageSize={true}
+          />
+        </Rnd>
       )}
     </div>
   );

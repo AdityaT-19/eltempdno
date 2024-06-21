@@ -111,6 +111,7 @@ const List = (props: {
                   style={{
                     display: "inline-block",
                     width: "auto",
+                    height: "auto",
                     alignContent: `flex-start`,
                     alignItems: `flex-start`,
                     justifyContent: `flex-start`,

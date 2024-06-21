@@ -6,6 +6,7 @@ import Table from "./draggables/Table";
 import { GridDeleteIcon } from "@mui/x-data-grid";
 import { CanvasField } from "../data_types/CanvasField";
 import { Rnd } from "react-rnd";
+
 const Canvas = (props: {
   fields: CanvasField[];
   updateCanvasField: (id: string, field: CanvasField) => void;
@@ -15,6 +16,18 @@ const Canvas = (props: {
   const { setNodeRef } = useDroppable({
     id: "canvas",
   });
+
+  function haveIntersection(
+    other: { x: any; y: any; width: any; height: any },
+    main: { x: any; y: any; width: any; height: any }
+  ) {
+    return !(
+      main.x > other.x + other.width ||
+      main.x + main.width < other.x ||
+      main.y > other.y + other.height ||
+      main.y + main.height < other.y
+    );
+  }
 
   return (
     <Box
@@ -58,6 +71,8 @@ const Canvas = (props: {
         className="canvas"
         style={{
           display: "flex",
+          height: "100%",
+          width: "100%",
           flexDirection: "column",
         }}
       >
@@ -79,15 +94,17 @@ const Canvas = (props: {
           >
             {field.type === "list" && (
               <Rnd
+                className={"mn872"}
                 style={{
                   border: "1px solid black",
                   position: "relative",
                   //display: "flex",
                   flexDirection: "column",
 
-                  height: "100%",
+                  height: "auto",
                   display: "inline-block",
                   width: "auto",
+                  // height: "auto",
                 }}
                 bounds={".canvas"}
                 default={{
@@ -115,12 +132,13 @@ const Canvas = (props: {
             )}
             {field.type === "grid" && (
               <Rnd
+                className={"mn872"}
                 style={{
                   border: "1px solid black",
                   position: "relative",
                   // display: "flex",
                   flexDirection: "column",
-                  height: "100%",
+                  height: "auto",
                   display: "inline-block",
                   width: "auto",
                   alignContent: `flex-start`,
@@ -152,42 +170,10 @@ const Canvas = (props: {
               </Rnd>
             )}
             {field.type === "table" && (
-              <Rnd
-                style={{
-                  border: "1px solid black",
-                  position: "relative",
-                  // display: "flex",
-                  flexDirection: "column",
-                  height: "100%",
-                  display: "inline-block",
-                  width: "auto",
-                  alignContent: `flex-start`,
-                  alignItems: `flex-start`,
-                  justifyContent: `flex-start`,
-                }}
-                bounds={".canvas"}
-                default={{
-                  x: field.x,
-                  y: field.y,
-                  width: "auto",
-                  height: "auto",
-                }}
-                enableResizing={{
-                  bottom: false,
-                  bottomLeft: false,
-                  bottomRight: false,
-                  left: true,
-                  right: true,
-                  top: false,
-                  topLeft: false,
-                  topRight: false,
-                }}
-              >
-                <Table
-                  canvasField={fields[index]}
-                  updateCanvasField={updateCanvasField}
-                />
-              </Rnd>
+              <Table
+                canvasField={fields[index]}
+                updateCanvasField={updateCanvasField}
+              />
             )}
           </div>
         ))}
